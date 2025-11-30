@@ -37,13 +37,17 @@ async function sendMessage(){
   try{
     const res = await fetch("/api/chat",{
       method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({ messages })
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ messages })
     });
 
     const data = await res.json();
+
+    // Safety check
+    if(!data.choices || !data.choices[0]?.message?.content){
+      throw new Error("No response from server");
+    }
+
     const reply = data.choices[0].message.content;
 
     typing.remove();
@@ -54,7 +58,8 @@ async function sendMessage(){
     appendMessage("bot", formatText(reply));
   }
   catch(e){
-    typing.textContent="Error...";
+    typing.textContent="Error fetching response!";
+    console.error(e);
   }
 }
 
