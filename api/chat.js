@@ -6,6 +6,10 @@ export default async function handler(req, res) {
   try {
     const { messages } = req.body;
 
+    // Debugging
+    console.log("Messages received:", messages.length);
+    console.log("Key length:", process.env.OPENROUTER_KEY?.length);
+
     const response = await fetch("https://openrouter.ai/v1/chat/completions", {
       method: "POST",
       headers: {
