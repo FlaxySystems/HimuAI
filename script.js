@@ -1,3 +1,6 @@
+const API_KEY = "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";
+const MODEL = "x-ai/grok-4.1-fast:free";
+
 const chatBox = document.getElementById("chat-box");
 const userInput = document.getElementById("user-input");
 
@@ -16,7 +19,7 @@ window.onload = () => {
 };
 
 // Enter to send
-userInput.addEventListener("keydown",(e)=>{
+userInput.addEventListener("keydown", (e)=>{
   if(e.key === "Enter" && !e.shiftKey){
     e.preventDefault();
     sendMessage();
@@ -35,18 +38,21 @@ async function sendMessage(){
   const typing = appendMessage("bot","Typing...");
 
   try{
-    const res = await fetch("/api/chat",{
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions",{
       method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ messages })
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":`Bearer ${API_KEY}`
+      },
+      body:JSON.stringify({
+        model: MODEL,
+        messages: messages,
+        max_tokens: 400,
+        temperature: 0.4
+      })
     });
 
     const data = await res.json();
-
-    if(!data.choices || !data.choices[0]?.message?.content){
-      throw new Error("No response from server");
-    }
-
     const reply = data.choices[0].message.content;
 
     typing.remove();
@@ -57,8 +63,7 @@ async function sendMessage(){
     appendMessage("bot", formatText(reply));
   }
   catch(e){
-    typing.textContent="Error fetching response!";
-    console.error(e);
+    typing.textContent="Error...";
   }
 }
 
