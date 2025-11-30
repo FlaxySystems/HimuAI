@@ -38,7 +38,7 @@ async function sendMessage(){
   const typing = appendMessage("bot","Typing...");
 
   try{
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions",{
+    const res = await fetch("/api/chat",{
       method:"POST",
       headers:{
         "Content-Type":"application/json",
@@ -122,4 +122,5 @@ function copyCode(btn){
   btn.innerText = "Copied ✅";
   setTimeout(()=>btn.innerText="Copy",1500);
 }
+
 
