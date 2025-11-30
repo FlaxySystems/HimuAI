@@ -1,6 +1,3 @@
-const API_KEY = "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";
-const MODEL = "x-ai/grok-4.1-fast:free";
-
 const chatBox = document.getElementById("chat-box");
 const userInput = document.getElementById("user-input");
 
@@ -19,7 +16,7 @@ window.onload = () => {
 };
 
 // Enter to send
-userInput.addEventListener("keydown", (e)=>{
+userInput.addEventListener("keydown",(e)=>{
   if(e.key === "Enter" && !e.shiftKey){
     e.preventDefault();
     sendMessage();
@@ -41,15 +38,9 @@ async function sendMessage(){
     const res = await fetch("/api/chat",{
       method:"POST",
       headers:{
-        "Content-Type":"application/json",
-        "Authorization":`Bearer ${API_KEY}`
+        "Content-Type":"application/json"
       },
-      body:JSON.stringify({
-        model: MODEL,
-        messages: messages,
-        max_tokens: 400,
-        temperature: 0.4
-      })
+      body:JSON.stringify({ messages })
     });
 
     const data = await res.json();
@@ -122,7 +113,3 @@ function copyCode(btn){
   btn.innerText = "Copied ✅";
   setTimeout(()=>btn.innerText="Copy",1500);
 }
-
-
-
-
