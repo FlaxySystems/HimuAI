@@ -1,4 +1,4 @@
-const API_KEY = "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";
+const API_KEY = "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";
 const MODEL = "x-ai/grok-4.1-fast:free";
 
 const chatBox = document.getElementById("chat-box");
@@ -122,6 +122,7 @@ function copyCode(btn){
   btn.innerText = "Copied ✅";
   setTimeout(()=>btn.innerText="Copy",1500);
 }
+
 
 
 
