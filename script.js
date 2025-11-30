@@ -43,7 +43,6 @@ async function sendMessage(){
 
     const data = await res.json();
 
-    // Safety check
     if(!data.choices || !data.choices[0]?.message?.content){
       throw new Error("No response from server");
     }
